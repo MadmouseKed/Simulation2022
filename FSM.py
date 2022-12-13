@@ -42,27 +42,35 @@ class FiniteStateMachine:
             else:
                 handler = self.handlers[newState.upper()]
 
-class AiBehaviour(FiniteStateMachine):
-    def __init__(self):
+class AiBehaviour:
+    def start_AI():
+        pass
+    def updateBehaviour():
+        pass
+    def combatBehaviour():
+        pass
+    def assistBehaviour():
+        pass
+    def idleBehaviour():
+        pass
+
+class Ai(FiniteStateMachine, AiBehaviour):
+    def __init__(self, health):
         self.currentState = None
+        self.health = health
+        self.add_state("start", self.start_AI)
+        self.add_state("change_behaviour", self.updateBehaviour)
+        self.add_state("fight_state", self.combatBehaviour)
+        self.add_state("assist_state", self.assistBehaviour)
+        self.add_state("idle_state", self.idleBehaviour)
+        self.add_state("dead_state", None, end_state=1)
+        self.add_state("stop_ai", None, end_state=1)
+        self.add_state("error_state", None, end_state=1)
 
     def getCurrentState(self):
         return self.currentState
 
-    #Behaviours
-    def start_AI(cmand):
-        pass
-
-
-
-    def switch_behaviour():
-        pass
-
-
-    def die():
-        return ("Died", "")
-
-
+#For testing the basic FSM
 def t_start(lst):
     head, tail = lst[0], lst[1:]
     if head == "Advance":
@@ -84,7 +92,8 @@ def transition_state(lst):
         newState == "error_state"
     return (newState, tail)
 
-###
+### Tests
+##FSM tests
 t = FiniteStateMachine()
 t.add_state("start", t_start)
 t.add_state("transition_state", transition_state)
@@ -99,3 +108,9 @@ print("Failure test")
 t.run(['Advance','Fail'])
 print("Error test")
 t.run(['Advance','Cabbage'])
+
+# h = FiniteStateMachine()
+# h.add_state("success_state", None, end_state=1)
+# h.add_state("transition_state", transition_state)
+# h.run(['Advance','Succeed'])
+
